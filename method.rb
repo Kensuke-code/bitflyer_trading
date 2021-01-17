@@ -5,6 +5,8 @@ require './key'
 require 'byebug'
 require "openssl"
 
+
+
 # 現在価格表示(API_SECRET不要)
 def get_price
     uri = URI.parse("https://api.bitflyer.com")
@@ -17,7 +19,7 @@ def get_price
 
     #json形式からハッシュに変換する
     response_hash = JSON.parse(response.body)
-    puts "取引価格： #{response_hash["mid_price"]}"
+    response_hash["mid_price"]
 end
 
 #買い注文
@@ -80,5 +82,33 @@ def get_balance(coin_name)
     response = https.request(options)
 
     response_hash = JSON.parse(response.body)
-    puts response_hash.find {|n| n["currency_code"] == coin_name}
+    response_hash.find {|n| n["currency_code"] == coin_name}
+end
+
+#特殊注文()
+def ifdoneOCO
+    key = API_KEY
+    secret = API_SECRET
+
+    timestamp = Time.now.to_i.to_s
+    method = "POST"
+    uri = URI.parse("https://api.bitflyer.com")
+    uri.path = "/v1/me/sendparentorder"
+    body = ''
+
+    text = timestamp + method + uri.request_uri + body
+    sign = OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new("sha256"), secret, text)
+
+    options = Net::HTTP::Post.new(uri.request_uri, initheader = {
+    "ACCESS-KEY" => key,
+    "ACCESS-TIMESTAMP" => timestamp,
+    "ACCESS-SIGN" => sign,
+    "Content-Type" => "application/json"
+    });
+    options.body = body
+
+    https = Net::HTTP.new(uri.host, uri.port)
+    https.use_ssl = true
+    response = https.request(options)
+    puts response.body 
 end
