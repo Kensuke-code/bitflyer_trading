@@ -19,7 +19,6 @@ def get_price
 
     #json形式からハッシュに変換する
     response_hash = JSON.parse(response.body)
-    response_hash["mid_price"]
 end
 
 #買い注文
@@ -82,7 +81,7 @@ def get_balance(coin_name)
     response = https.request(options)
 
     response_hash = JSON.parse(response.body)
-    response_hash.find {|n| n["currency_code"] == coin_name}
+    target_currency = response_hash.find {|n| n["currency_code"] == coin_name}["amount"]
 end
 
 #特殊注文()
