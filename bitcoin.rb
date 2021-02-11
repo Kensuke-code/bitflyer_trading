@@ -1,4 +1,4 @@
-require './method'
+require './bitflyer_method'
 require 'logger'
 require './line_notification'
 
