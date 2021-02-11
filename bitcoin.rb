@@ -1,5 +1,6 @@
 require './method'
 require 'logger'
+require './line_notification'
 
 MAX_TRADING_COUNT = 1 #１日の処理実行回数は１回まで
 MINIMUM_PURCHASE_UNIT = 0.001 #ビットコインの最低購入単位
