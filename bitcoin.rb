@@ -5,7 +5,7 @@ require './line_notification'
 MAX_TRADING_COUNT = 1 #１日の処理実行回数は１回まで
 MINIMUM_PURCHASE_UNIT = 0.001 #ビットコインの最低購入単位
 
-
+result = ""
 log = Logger.new('./logfile')
 
 log.info('月次仮想通貨売買を開始')
@@ -32,20 +32,19 @@ sleep(1)
 
 # もし、現在の資産価格(円)が足りなければ、エラーを通知
 if my_jpy < minimum_purchase_amount
-    puts "残高不足です。注文を中止します。"
+    result =  "残高不足です。注文を中止します。保有資産(JPY): #{my_jpy}円,最低購入金額: #{minimum_purchase_amount}円"
     log.error('注文失敗(残高不足)')
 else 
     begin
         buy_order
-        puts "注文が完了しました"
+        result =  "注文が完了しました"
         log.info('注文成功')
     rescue Exeption => e
-        puts "注文に失敗しました"
-        puts e.class
+        result = "注文失敗 #{e.class}"
         log.info("注文失敗 #{e.class}")
     end
 end
 
-# 購入に失敗した場合は翌日繰り返す
+# 結果をLINEで送信
+LineNotify.send(result)
 
-# 結果を現在価格とともにメールに送信
