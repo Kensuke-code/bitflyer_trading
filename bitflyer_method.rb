@@ -2,7 +2,6 @@ require 'net/http'
 require 'uri'
 require 'json'
 require './key'
-require 'byebug'
 require "openssl"
 
 

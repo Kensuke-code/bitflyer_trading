@@ -36,5 +36,3 @@ class LineNotify
     URI.parse(URL_TEXT)
   end
 end
-
-LineNotify.send('テスト送信。これから実装楽しみ✨')

@@ -33,6 +33,7 @@ sleep(1)
 # もし、現在の資産価格(円)が足りなければ、エラーを通知
 if my_jpy < minimum_purchase_amount
     result =  "残高不足です。注文を中止します。保有資産(JPY): #{my_jpy}円,最低購入金額: #{minimum_purchase_amount}円"
+    puts(result)
     log.error('注文失敗(残高不足)')
 else 
     begin
